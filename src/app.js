@@ -6,11 +6,29 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({
-    origin: "https://gen-ai-frontend-xd06.onrender.com",
-    credentials: true
-}))
-
+// app.use(cors({
+//     origin: "https://gen-ai-frontend-xd06.onrender.com",
+//     credentials: true
+// }))
+// app.use(
+//   cors({
+//     origin:
+//       process.env.IS_PRODUCTION === "true"
+//         ? "https://gen-ai-frontend-xd06.onrender.com"
+//         : "http://localhost:5173",
+//     credentials: true,
+//   })
+// );
+const clientURL =
+  process.env.NODE_ENV === "production"
+    ? "https://gen-ai-frontend-xd06.onrender.com"
+    : "http://localhost:5173";
+app.use(
+  cors({
+    origin: clientURL,
+    credentials: true,
+  })
+);
 /* require all the routes here */
 const authRouter = require("./routes/auth.routes")
 const interviewRouter = require("./routes/interview.routes")
